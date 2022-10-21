@@ -39,7 +39,8 @@ apt-get install -y --no-install-recommends \
 
 To install kraft simply run:
 
-```bash
+
+```
 pip3 install git+https://github.com/unikraft/kraft.git
 ```
 
@@ -89,7 +90,8 @@ Help:
 
 The simplest way to get the sources for, build and run an application is by running the following commands:
 
-```bash
+
+```
 kraft list
 kraft up -p PLATFORM -m ARCHITECTURE APP
 ```
@@ -97,7 +99,8 @@ kraft up -p PLATFORM -m ARCHITECTURE APP
 You can also build and run an applications from the existing templates by using the `-t` option.
 For example, building and running the [helloworld app](https://github.com/unikraft/app-helloworld):
 
-```bash
+
+```
 kraft up -p kvm -m x86_64 -t helloworld helloworld
 ```
 
@@ -117,7 +120,8 @@ To manually set up the build environment for the [helloworld app](https://github
       └─── unikraft               <- Unikraft core
 ```
 We can do this by executing the following sequence of commands:
-```bash
+
+```
 $ mkdir my-unikernel
 $ cd my-unikernel
 $ git clone https://github.com/unikraft/unikraft
@@ -129,7 +133,8 @@ $ cd app-helloworld
 ```
 All following configuration and build operations are done from within the helloworld application folder.
 Notice that it already contains a `Makefile` that looks like this:
-```Makefile
+
+```
 UK_ROOT ?= $(PWD)/../../unikraft
 UK_LIBS ?= $(PWD)/../../libs
 LIBS :=
@@ -147,7 +152,8 @@ We thus do not have to download or reference any libraries in the `Makefile` and
 
 With the `Makefile` present and the directory structure correctly set up, we are able to configure the unikernel as the next step.
 This will allow us to select the target architecture (e.g., aarch64 or x86-64) and platform (e.g., KVM or Xen).
-```bash
+
+```
 $ make menuconfig
 ```
 By default the build system selects x86-64 as target architecture, so we only have to choose a target platform.
@@ -155,7 +161,8 @@ We will decide for KVM by navigating to the `Platform Configuration | KVM guest`
 Afterwards, we save and exit the configuration menu.
 
 You can then build the unikernel with:
-```bash
+
+```
 $ make
 ```
 Consider adding `-jX` with `X` being the number of CPUs in your machine to speed up the build process.
@@ -170,25 +177,29 @@ As you might have noticed already from the code organization in the core reposit
 
 To add a library you simply clone it into the `libs` directory created earlier.
 In this example, we add the lightweight IP (lwip) network stack [lib-lwip](https://github.com/unikraft/lib-lwip):
-```bash
+
+```
 $ cd my-unikernel
 $ cd libs
 $ git clone https://github.com/unikraft/lib-lwip
 ```
 Next, we have reference the library in the `Makefile` of `app-helloworld` so that it becomes available for selection in the configuration:
-```Makefile
+
+```
 UK_LIBS ?= $(PWD)/../../libs
 
 LIBS := $(UK_LIBS)/lib-lwip
 #LIBS := $(LIBS-y):$(UK_LIBS)/lib-X
 ```
 We can now re-run
-```bash
+
+```
 make menuconfig
 ```
 and select `lwip` in the `Library Configuration` sub-menu.
 We can then rebuild the unikernel, by running:
-```bash
+
+```
 $ make clean
 $ make prepare
 $ make

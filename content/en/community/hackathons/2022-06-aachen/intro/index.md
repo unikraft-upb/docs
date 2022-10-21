@@ -42,7 +42,8 @@ First and foremost, access the virtual machine.
 Second, list files.
 You would get something like:
 
-```Bash
+
+```
 ubuntu@vm-49:~$ ls
 docs  kraft  packages  workdir
 
@@ -111,7 +112,8 @@ Thirdly, do the steps below.
 
 See if kraft is properly installed by finding out its version:
 
-```Bash
+
+```
 ubuntu@vm-49:~$ kraft --version
 kraft, version 0.5.0.dev491
 ```
@@ -121,7 +123,8 @@ kraft, version 0.5.0.dev491
 Run the commands below to configure, build and run the Unikraft helloworld program.
 No need to have a good understanding of the commands below, we'll detail them soon.
 
-```Bash
+
+```
 ubuntu@vm-49:~$ cd workdir/apps/app-helloworld/
 
 ubuntu@vm-49:~/workdir/apps/app-helloworld$ ls
@@ -183,7 +186,8 @@ RM      config
 
 ### Run Unikraft httpreply
 
-```Bash
+
+```
 ubuntu@vm-49:~$ ls
 docs  kraft  packages  workdir
 
@@ -251,7 +255,8 @@ RM      config
 This will start a simple HTTP server on the IP address `172.44.0.2` on port `8123`.
 From another console in the VM, ask for the index page:
 
-```Bash
+
+```
 ubuntu@vm-49:~$ wget 172.44.0.2:8123
 --2022-06-25 07:50:47--  http://172.44.0.2:8123/
 Connecting to 172.44.0.2:8123... connected.
@@ -266,7 +271,8 @@ index.html                                 [ <=>                                
 
 #### Run nginx server on Unikraft
 
-```Bash
+
+```
 ubuntu@vm-49:~$ ls
 docs  kraft  packages  workdir
 
@@ -334,7 +340,8 @@ oOo oOO| | | | |   (| | | (_) |  _) :_
 This will start an Nginx web server listening for connection on `172.44.0.2` (the default port is `80`).
 From another console in the VM, ask for the index page:
 
-```Bash
+
+```
 ubuntu@vm-49:~$ wget 172.44.0.2
 --2022-06-25 08:01:09--  http://172.44.0.2/
 Connecting to 172.44.0.2:80... connected.

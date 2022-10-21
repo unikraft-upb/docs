@@ -27,7 +27,8 @@ This requires the file to be recognized and compiled, however, which is done by 
 
 For `iperf3`, this is done by compiling in `main.c` which contains the `main` method:
 
-```Makefile
+
+```
 LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/main.c
 ```
 
@@ -48,7 +49,8 @@ In any case, we can rename the default `main` symbol in the application by using
 
 With `iperf3`, for example, we can rename the `main` method to `iperf3_main` by adding a new library-specific `_FLAGS-y` entry in `Makefile.uk`:
 
-```Makefile
+
+```
 LIBIPERF3_IPERF3_FLAGS-y += -Dmain=iperf3_main
 ```
 
@@ -71,7 +73,8 @@ When this option is enabled, we can either:
 
 1. Disable the use of the `-D` flag as indicated above, conditionally in the `Makefile.uk`:
 
-   ```Makefile
+
+```
    ifneq($(CONFIG_LIBIPERF3_MAIN_FUNCTION),y)
    LIBIPERF3_IPERF3_FLAGS-y += -Dmain=iperf3_main
    endif
@@ -79,7 +82,8 @@ When this option is enabled, we can either:
 
 1. Or more commonly, introduce a conditional file which provides `main` and invokes the renamed `main` (now `iperf3_main`) method from the library, for example:
 
-   ```Makefile
+
+```
    LIBIPERF3_SRCS-$(CONFIG_LIBIPERF3_MAIN_FUNCTION) += $(LIBIPERF3_BASE)/main.c|unikraft
    ```
 

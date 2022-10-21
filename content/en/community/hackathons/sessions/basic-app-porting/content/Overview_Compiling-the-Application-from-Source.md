@@ -7,13 +7,15 @@ Let's walk through the build process of `iperf3` from its `README`:
 
 1. First we obtain the source code of the application:
 
-   ```bash
+
+```
    $ git clone https://github.com/esnet/iperf.git
    ```
 
 1. Then, we are asked to configure and build the application:
 
-   ```bash
+
+```
    $ cd ./iperf
    $ ./configure;
    $ make

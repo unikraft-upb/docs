@@ -36,7 +36,8 @@ In order to configure a Unikraft image to target the KVM platform, we simply
 select one of the KVM images at the configuration step, according to the target
 architecture (ARM64 or x86_64):
 
-```bash
+
+```
 $ kraft configure
 ```
 ```
@@ -79,8 +80,9 @@ image using `make`.
 
 In order to run, you need to load the resulting image in QEMU by using:
 
-```bash
-$ qemu-system-x86_64 \ 
+
+```
+$ qemu-system-x86_64 \
     --nographic \
     -kernel ./build/app-helloworld_kvm-x86_64
 ```
@@ -97,19 +99,21 @@ because kvm uses a generic CPU model. You can instruct kvm to use your local CPU
 model, by adding `-cpu host` to the command. The final command will look like
 this:
 
-```bash
+
+```
 $ qemu-system-x86_64 \
     --nographic \
     -kernel ./build/app-helloworld_kvm-x86_64 \
     -enable-kvm \
-    -cpu host 
+    -cpu host
 ```
 
 In order to run an ARM64 image on a x86 host, you will need to provide `qemu`
 some additional arguments: the machine and cpu type. Here is a full command that
 runs an ARM64 image:
 
-```bash
+
+```
 $ qemu-system-aarch64 \
     --nographic \
     -machine virt \
@@ -119,13 +123,15 @@ $ qemu-system-aarch64 \
 
 If you want to see available machine types, you can use:
 
-```bash
+
+```
 $ qemu-system-aarch64 -machine help
 ```
 
 If you want to see available cpu types for a specific machine, run:
 
-```bash
+
+```
 $ qemu-system-aarch64 -machine <machine type> -cpu help
 ```
 
@@ -142,7 +148,8 @@ the [kraft Git repo](https://github.com/unikraft/kraft), in `scripts/`. What
 generate a more complex `qemu-system` command. Here is the `qemu-guest` command
 for running `app-helloworld` on x86_64:
 
-```bash
+
+```
 $ ./qemu-guest -k build/app-helloworld_kvm-x86_64
 ```
 
@@ -156,6 +163,7 @@ By default, `qemu-guest` enables hardware acceleration.  To disable it, we can
 use `-W`. Here is the `qemu-guest` command for running the ARM64 version of
 `app-helloworld` on a x86_64 host:
 
-```bash
+
+```
 $ ./qemu-guest -t arm64v -W -k build/app-helloworld_kvm-arm64
 ```

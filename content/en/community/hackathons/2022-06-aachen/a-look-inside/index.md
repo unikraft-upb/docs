@@ -505,7 +505,8 @@ They are used by the `kraft configure` command.
 This is the equivalent of what `make menuconfig` does.
 We need to update those `TODO` lines with:
 
-```yaml
+
+```
   kconfig:
     - CONFIG_LIBUK9P=y
     - CONFIG_LIB9PFS=y
@@ -518,7 +519,8 @@ Then, we need to update the `TODO` lines for the volume configuration (for mount
 These configuration lines are to be used by the `kraft run` command.
 We need to update those `TODO` lines with:
 
-```yaml
+
+```
 volumes:
   guest_fs:
     driver: 9pfs
@@ -526,7 +528,8 @@ volumes:
 
 In the end, the resulting `kraft.yaml` file will look like this:
 
-```yaml
+
+```
 ---
 specification: '0.5'
 name: 02-adding-filesystems

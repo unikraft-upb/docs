@@ -5,7 +5,8 @@ This process is usually very iterative because it requires building the unikerne
 1. The first thing we must do before we start is to check that fetching the remote code for `iperf3` is possible.
    Let's try and do this by running in our application workspace:
 
-   ```bash
+
+```
    $ cd ~/workspace/apps/iperf3
    $ kraft fetch
    ```
@@ -13,7 +14,8 @@ This process is usually very iterative because it requires building the unikerne
    If this is successful, we should see it download the remote `zip` file and we should see it saved within our Unikraft application's `build/`.
    The directory with the extracted contents should be located at:
 
-   ```bash
+
+```
    $ ls -lsh build/libiperf3/origin/iperf-3.10.1/
    ```
    ```
@@ -56,7 +58,8 @@ This process is usually very iterative because it requires building the unikerne
    ```
 
    Let's indicate in the `Makefile.uk` of the Unikraft library for `iperf3` that this directory exists:
-   ```Makefile
+
+```
    LIBIPERF3_CINCLUDES-y += -I$(LIBIPERF3_BASE)/include
    ```
 
@@ -65,7 +68,8 @@ This process is usually very iterative because it requires building the unikerne
 
 1. Next, let's run `make` with a special flag:
 
-   ```bash
+
+```
    $ cd build/libiperf3/origin/iperf-3.10.1/
    $ make -n
    ```
@@ -88,14 +92,16 @@ This process is usually very iterative because it requires building the unikerne
    However, in a later step, we'll find out that we can set some flags.
    If you do have flags which are immediately obvious, you set them like so in the library port's `Makefile.uk`, for example:
 
-   ```Makefile
+
+```
    LIBIPERF3_CFLAGS-y += -Wno-unused-parameter
    ```
 
 1. We have a full list of files for `iperf3` from step 3.
    We can add them as known source files like so to the Unikraft port of `iperf3`'s `Makefile.uk`:
 
-   ```Makefile
+
+```
    LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/main.c
    LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/cjson.c
    LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/iperf_api.c
@@ -112,7 +118,8 @@ This process is usually very iterative because it requires building the unikerne
 1. Now that we have added all the source files, let's try and build the application!  This step, again, usually occurs iteratively along with the previous step of adding a new file one by one.
    Because the application has been configured and we have fetched the contents, we can simply try running the build in the Unikraft application directory:
 
-   ```bash
+
+```
    $ cd ~/workspace/apps/iperf3
    $ kraft build
    ```
@@ -129,20 +136,23 @@ This process is usually very iterative because it requires building the unikerne
 
    Preparation is done by adding Make targets to the `UK_PREPARE` variable:
 
-   ```Makefile
+
+```
    UK_PREPARE += mytarget
    ```
 
    Checking whether the library has been prepared or adding a target which requires preparation before it can be executed is as simple as checking whether the following target exists:
 
-   ```Makefile
+
+```
    $(LIBIPERF3_BUILD)/.patched
    ```
 
    The `prepare` step is called naturally because of this target.
    However, it can be called separately from `kraft` via:
 
-   ```bash
+
+```
    $ kraft prepare
    ```
 

@@ -16,19 +16,22 @@ GDB provides convenience variables that you can use within GDB to hold on to a v
 For example:
 
 
-```bash
+
+```
 set $foo = *object_ptr
 ```
 
 Note that you can also cast variables in GDB similar to C:
 
-```bash
+
+```
 set $var = (int *) ptr
 ```
 
 If you want to dereference a pointer and actually see the value, you can use the following command:
 
-```bash
+
+```
 p *addr
 ```
 

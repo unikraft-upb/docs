@@ -64,7 +64,8 @@ For C source or header files, this appears as follows:
 
 For Makefiles, Python files, and other files which use a `#` symbol for commenting, this appears as follows:
 
-```Makefile
+
+```
 # SPDX-License-Identifier: BSD-3-Clause
 #
 # Authors: ...

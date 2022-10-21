@@ -5,7 +5,8 @@ Navigate to the `04-05-06-myramfs` directory.
 Copy `myramfs` directory to the `lib` directory in `unikraft` and the application in the `apps` directory.
 Your working directory should look like this:
 
-```Bash
+
+```
 workdir
 |_______apps
 |       |_______ramfs-app
@@ -19,7 +20,8 @@ workdir
 
 Edit the `Makefile.uk` from the `lib` directory and add the following:
 
-```Makefile
+
+```
 $(eval $(call _import_lib,$(CONFIG_UK_BASE)/lib/myramfs))
 ```
 
@@ -27,7 +29,8 @@ Now we need to make our library configurable from `vfscore`, for this we will ne
 
 First we will add the configuration menu:
 
-```Makefile
+
+```
 if LIBVFSCORE_AUTOMOUNT_ROOTFS
         choice LIBVFSCORE_ROOTFS
         prompt "Default root filesystem"
@@ -46,7 +49,8 @@ If we run now `make menuconfig` in the application `ramfs-app` we should see our
 ![vfscore_config_myramfs](/community/hackathons/sessions/advanced-app-porting/images/vfscore_config_myramfs.png)
 
 The second fundamental step is to add the following line to the same `Config.uk` file:
-```Makefile
+
+```
  # Hidden configuration option that gets automatically filled
         # with the selected filesystem name
         config LIBVFSCORE_ROOTFS

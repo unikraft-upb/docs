@@ -1,7 +1,8 @@
 One of the most popular symbolic execution engine is [KLEE](https://klee.github.io/).
 For convenience, we'll be using Docker.
 
-```Bash
+
+```
 docker pull klee/klee:2.1
 docker run --rm -ti --ulimit='stack=-1:-1' klee/klee:2.1
 ```
@@ -63,13 +64,15 @@ Now, let's run this program symbolically.
 To do this, we'll uncomment the `klee_make_symbol` line, and comment the line with `read` and `printf`.
 We'll compile the program with `clang` this time:
 
-```Bash
+
+```
 clang -c -g -emit-llvm  ex.c
 ```
 
 And run it with KLEE:
 
-```Bash
+
+```
 klee ex.bc
 ```
 

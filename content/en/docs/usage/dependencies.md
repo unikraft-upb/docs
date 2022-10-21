@@ -26,7 +26,8 @@ A platform is the virtualization / runtime environment used to run the resulting
 ## `kraft list`
 
 You can find a list of all aplication, libraries and platforms by using:
-```bash
+
+```
 $ kraft list
 ```
 
@@ -45,13 +46,15 @@ helloworld-cpp  	0.6     	02 Dec 21 	17 hours ago
 
 You can add origins for kraft to use in the `.kraftrc` file, under `[list]`.
 If you create a new library using the `kraft lib` command shown below, you can add the new local library to the `.kraftrc` file by using:
-```bash
+
+```
 $ kraft lib add ~/path/to/local/lib
 $ kraft list update
 ```
 
 You can check that everything worked fine and view basic informations about the new library by using:
-```bash
+
+```
 $ kraft list show LIBNAME
 ```
 
@@ -67,7 +70,8 @@ origins = [
 ```
 
 After every update to `.kraftrc`, run:
-```bash
+
+```
 $ kraft list update
 ```
 
@@ -107,7 +111,8 @@ Commands:
 ## `kraft init`
 
 If you want to initiate an existing application, you can use:
-```bash
+
+```
 $ kraft init -t TEMPLATE_NAME [TARGET_NAME]
 ```
 
@@ -137,7 +142,8 @@ Options:
 ## `kraft up`
 
 You can retreive, build and run an existing appliication from the list above by using only one command:
-```bash
+
+```
 $ kraft up -t TEMPLATE_NAME TARGET_NAME
 ```
 
@@ -180,13 +186,15 @@ Options:
 
 You can also use kraft to manage Unikraft libraries.
 You can add and remove libraries from the project:
-```bash
+
+```
 $ kraft lib add NAME
 $ kraft lib remove NAME
 ```
 
 Or you can initialize a new Unikraft library using:
-```bash
+
+```
 $ kraft lib init [OPTIONS] [NAME]
 ```
 

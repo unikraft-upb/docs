@@ -22,7 +22,8 @@ The way we can add such a section in our application/library is the following:
 
 1. Add the following line to `Makefile.uk`:
 
-   ```Makefile
+
+```
    LIBYOURAPPNAME_SRCS-$(CONFIG_LIBYOURAPPNAME) += $(LIBYOURAPPNAME_BASE)/extra.ld
    ```
 
@@ -34,7 +35,8 @@ In the `/demo/01-extrald-app` directory there is an application that defines a n
 Copy this directory to your app's directory.
 Your working directory should look like this:
 
-```Bash
+
+```
 workdir
 |_______apps
 |       |_______01-extrald-app
@@ -94,7 +96,8 @@ Save the configuration, exit the menuconfig tab and run `make`.
 Now, let's run it.
 You can use the following command:
 
-```Bash
+
+```
 $ qemu-guest -k build/01-extrald-app_kvm-x86_64
 ```
 
@@ -107,7 +110,8 @@ The readelf utility is used to display information about ELF files, like section
 More about it [here](https://man7.org/linux/man-pages/man1/readelf.1.html)
 Use the following command to display information about the ELF sections:
 
-```Bash
+
+```
 $ readelf -S build/01-extrald-app_kvm-x86_64
 ```
 

@@ -1,6 +1,7 @@
 We begin by adding a new file for the tests called `test_stat.c` in a newly created folder `tests` in the [`vfscore`](https://github.com/unikraft/unikraft/tree/staging/lib/vfscore) internal library:
 
-```Makefile
+
+```
 LIBVFSCORE_SRCS-$(CONFIG_LIBVFSCORE_TEST_STAT) += \
     $(LIBVFSCORE_BASE)/tests/test_stat.c
 ```

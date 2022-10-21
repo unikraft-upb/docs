@@ -31,7 +31,7 @@ In this directory, we need to create two files:
 
 In the `Makefile`, the order in which the libraries are mentioned in the `LIBS` variable is important to avoid the occurrence of compilation errors.
 
-```Makefile
+```
 UK_ROOT ?= $(PWD)/../../unikraft
 UK_LIBS ?= $(PWD)/../../libs
 LIBS := $(UK_LIBS)/lib-pthread-embedded:$(UK_LIBS)/lib-newlib:$(UK_LIBS)/lib-sqlite
@@ -45,7 +45,9 @@ $(MAKECMDGOALS):
 
 For the moment, `Makefile.uk` should look like this:
 
-```Makefile
+
+```
+
 $(eval $(call addlib,appsqlite))
 ```
 
@@ -119,7 +121,7 @@ In the end, we run `select * from tab` to see the contents of the table.
 
 If everything runs as expected, then we'll get the following output:
 
-```bash
+```
 SeaBIOS (version 1.13.0-1ubuntu1.1)
 Booting from ROM...
 Powered by

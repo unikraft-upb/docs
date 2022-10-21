@@ -63,13 +63,15 @@ Let's walk through the build process of `iperf3` from its `README`:
 
 1. First we obtain the source code of the application:
 
-   ```bash
+
+```
    git clone https://github.com/esnet/iperf.git
    ```
 
 1. Then, we are asked to configure and build the application:
 
-   ```bash
+
+```
    cd ./iperf
    ./configure;
    make
@@ -115,7 +117,8 @@ Let's first start by initializing a working environment for ourselves:
 
 1. Let's create a workspace with a typical Unikraft structure using `kraft`:
 
-   ```bash
+
+```
    cd ~/workspace
    export UK_WORKDIR=$(pwd)
    kraft list update
@@ -125,7 +128,8 @@ Let's first start by initializing a working environment for ourselves:
    This will generate the necessary directory structure to build a new Unikraft application, and will also download the latest `staging` branch of Unikraft's core.
    When we list the directories, we should get something like this:
 
-   ```bash
+
+```
    $ tree -L 1
    .
    ├── apps
@@ -150,7 +154,8 @@ Let's first start by initializing a working environment for ourselves:
 
    We can now use `kraft` to initialize a template library for us:
 
-   ```bash
+
+```
    cd ~/workspace/libs
    kraft lib init \
       --no-prompt \
@@ -173,21 +178,24 @@ Let's first start by initializing a working environment for ourselves:
 
 1. The next step is to register this library with `kraft` such that we can use it and manipulate it with the `kraft` toolchain. To do this, simply add the path of the newly initialized library like so:
 
-   ```bash
+
+```
    kraft list add ~/workspace/libs/iperf3
    ```
 
    This will modify your `.kraftrc` file with a new local library.
    When you have added this library directory, run the update command so that `kraft` can realize it:
 
-   ```bash
+
+```
    kraft list update
    ```
 
 1. You should now be able to start using this boilerplate library with Unikraft and `kraft`.
    To view basic information about the library and to confirm everything has worked, you can run:
 
-   ```bash
+
+```
    kraft list show iperf3
    ```
 
@@ -199,19 +207,22 @@ To do this, we create a parallel application which uses both the library we are 
 
 1. First start by creating a new application structure, which we can do by initializing a blank project:
 
-   ```bash
+
+```
    cd ~/workspace/apps
    kraft init iperf3
    ```
 
 1. We will now have an "empty" initialized project; you'll find boilerplate in this directory, including a `kraft.yaml` file which will look something like this:
 
-   ```bash
+
+```
    cd ~/workspace/apps/iperf3
    cat kraft.yaml
    ```
 
-   ```yaml
+
+```
    specification: '0.5'
    unikraft: staging
    targets:
@@ -221,7 +232,8 @@ To do this, we create a parallel application which uses both the library we are 
 
 1. After setting up your application project, we should add the new library we are working on to the application. This is done via:
 
-   ```bash
+
+```
    kraft lib add iperf3@staging
    ```
 
@@ -249,14 +261,16 @@ To do this, we create a parallel application which uses both the library we are 
 1. We are ready to configure the application to use the library.
    It should be possible to now see the boilerplate `iperf3` library within the [`menuconfig`](https://en.wikipedia.org/wiki/Menuconfig) system by running:
 
-   ```bash
+
+```
    kraft menuconfig
    ```
 
    within the application folder.
    However, it will also be selected automatically since it is in the `kraft.yaml` file now if you run the configure step:
 
-   ```bash
+
+```
    kraft configure
    ```
 
@@ -274,7 +288,8 @@ This process is usually very iterative because it requires building the unikerne
 1. The first thing we must do before we start is to check that `fetch`ing the remote code for `iperf3` is possible.
    Let's try and do this by running in our application workspace:
 
-   ```bash
+
+```
    cd ~/workspace/apps/iperf3
    kraft fetch
    ```
@@ -282,7 +297,8 @@ This process is usually very iterative because it requires building the unikerne
    If this is successful, we should see it download the remote zip file and we should see it saved within our Unikraft application's `build/`.
    The directory with the extracted contents should be located at:
 
-   ```bash
+
+```
    $ ls -lsh build/libiperf3/origin/iperf-3.10.1/
    total 988K
     12K -rw-r--r-- 1 root root 9.3K Jun  2 22:29 INSTALL
@@ -317,7 +333,8 @@ This process is usually very iterative because it requires building the unikerne
    `iperf3` has an `iperf_config.h` file, so let's copy this file into our Unikraft port of the application.
    Make an `include/` directory in the library's repository and copy the file:
 
-   ```bash
+
+```
    mkdir ~/workspace/libs/iperf3/include
    cp build/libiperf3/origin/iperf-3.10.1/src/iperf_config.h ~/workspace/libs/iperf3/include
    ```
@@ -325,7 +342,8 @@ This process is usually very iterative because it requires building the unikerne
    Let's indicate in the `Makefile.uk` of the Unikraft library for `iperf3` that
    this directory exists:
 
-   ```Makefile
+
+```
    LIBIPERF3_CINCLUDES-y += -I$(LIBIPERF3_BASE)/include
    ```
 
@@ -334,7 +352,8 @@ This process is usually very iterative because it requires building the unikerne
 
 1. Next, let's run `make` with a special flag:
 
-   ```bash
+
+```
    cd build/libiperf3/origin/iperf-3.10.1/
    make -n
    ```
@@ -342,7 +361,8 @@ This process is usually very iterative because it requires building the unikerne
    This flag, `-n`, has just shown us what `make` will run; the full commands for `gcc` including flags.
    What's interesting here is any line which start with:
 
-   ```bash
+
+```
    echo "  CC      "
    ```
 
@@ -357,14 +377,16 @@ This process is usually very iterative because it requires building the unikerne
    However, in a later step, we'll find out that we can set some flags.
    If you do have flags which are immediately obvious, you set them like so in the library port's `Makefile.uk`, for example:
 
-   ```Makefile
+
+```
    LIBIPERF3_CFLAGS-y += -Wno-unused-parameter
    ```
 
 1. We have a full list of files for `iperf3` from step 3.
    We can add them as known source files like so to the Unikraft port of `iperf3`'s `Makefile.uk`:
 
-   ```Makefile
+
+```
    LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/main.c
    LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/cjson.c
    LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/iperf_api.c
@@ -386,7 +408,8 @@ This process is usually very iterative because it requires building the unikerne
    This step, again, usually occurs iteratively along with the previous step of adding a new file one-by-one.
    Because the application has been `configure`d and we have `fetch`ed the contents, we can simply try running the build in the Unikraft application directory:
 
-   ```bash
+
+```
    cd ~/workspace/apps/iperf3
    kraft build
    ```
@@ -404,20 +427,23 @@ This process is usually very iterative because it requires building the unikerne
 
    Preparation is done by adding Make targets to the `UK_PREPARE` variable:
 
-   ```Makefile
+
+```
    UK_PREPARE += mytarget
    ```
 
    Checking whether the library has been `prepare`d or adding a target which requires preparation before it can be executed is as simple as checking whether the following target exists:
 
-   ```Makefile
+
+```
    $(LIBIPERF3_BUILD)/.patched
    ```
 
    The `prepare` step is called naturally because of this target.
    However, it can be called separately from `kraft` via:
 
-   ```bash
+
+```
    kraft prepare
    ```
 
@@ -467,7 +493,8 @@ This requires the file to be recognised and compiled however, which is done by s
 
 For `iperf3`, this is done by compiling in `main.c` which contains the `main` method:
 
-```Makefile
+
+```
 LIBIPERF3_SRCS-y += $(LIBIPERF3_SRC)/main.c
 ```
 
@@ -488,7 +515,8 @@ This flag allows us to define macros in-line, and we can simply introduce a macr
 
 With `iperf3`, for example, we can rename the `main` method to `iperf3_main` by adding a new library-specific `_FLAGS-y` entry in `Makefile.uk`:
 
-```Makefile
+
+```
 LIBIPERF3_IPERF3_FLAGS-y += -Dmain=iperf3_main
 ```
 
@@ -511,7 +539,8 @@ When this option is enabled, we can either:
 
 1. Disable the use of the `-D` flag as indicated above, conditionally in the `Makefile.uk`:
 
-   ```Makefile
+
+```
    ifneq($(CONFIG_LIBIPERF3_MAIN_FUNCTION),y)
    LIBIPERF3_IPERF3_FLAGS-y += -Dmain=iperf3_main
    endif
@@ -519,7 +548,8 @@ When this option is enabled, we can either:
 
 1. Or more commonly, introduce a conditional file which provides `main` and invokes the renamed `main` (now `iperf3_main`) method from the library, for example:
 
-   ```Makefile
+
+```
    LIBIPERF3_SRCS-$(CONFIG_LIBIPERF3_MAIN_FUNCTION) += $(LIBIPERF3_BASE)/main.c|unikraft
    ```
 
@@ -591,14 +621,16 @@ To make a patch:
 
 1. First, ensure that the remote origin code has been downloaded to the application's `build/` folder:
 
-   ```bash
+
+```
    cd ~/workspace/apps/iperf3
    kraft fetch
    ```
 
 1. Once the source files have been downloaded, turn it into a Git repository and save everything to an initial commit, in the case of `iperf3`:
 
-   ```bash
+
+```
    cd build/libiperf3/origin/iperf-3.10.1
    git init
    git add .
@@ -613,7 +645,8 @@ To make a patch:
 1. After your changes have been saved to the git log, export them as patches.
    For example, if you have made one (`1`) patch only, export it like so:
 
-   ```bash
+
+```
    git format-patch HEAD~1
    ```
 
@@ -621,14 +654,16 @@ To make a patch:
 
 1. The next step is to create a `patches/` folder within the Unikraft port of the library and to move the new `.patch` file into this folder:
 
-   ```bash
+
+```
    mkdir ~/workspace/libs/iperf3/patches
    mv ~/workspace/apps/iperf3/build/libiperf3/origin/iperf-3.10.1/*.patch ~/workspace/libs/iperf3/patches
    ```
 
 1. To register patches against Unikraft's build tool such that they are applied before the compilation of all source files, simply indicate it in the library's `Makefile.uk`:
 
-   ```Makefile
+
+```
    # Add or edit ~/workspace/libs/iperf3/Makefile.uk
    LIBIPERF3_PATCHDIR = $(LIBIPERF3_BASE)/patches
    ```
