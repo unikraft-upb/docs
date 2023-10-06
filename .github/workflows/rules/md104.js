@@ -10,15 +10,19 @@ module.exports = {
     })) {
       var actual_lines = inline.content.split("\n");
       var hugo_shortcode = false;
+      var md_header = false;
       actual_lines.forEach((line, index, arr) => {
+		md_header = false;
 		if (line.startsWith("{{"))
 		      hugo_shortcode = true;
+		if (line.startsWith("#"))
+		      md_header = true;
 		let outside = true;
 		let outside_ticks = true;
 		let count = 0;
 		Array.from(line).forEach((char) => {
 			if ((char == "." || char == "?" || char == "!") &&
-				(outside && outside_ticks && !hugo_shortcode)) {
+				(outside && outside_ticks && !hugo_shortcode && !md_header)) {
 				count++;
 			}
 			if (char == "`") outside_ticks = !outside_ticks;
